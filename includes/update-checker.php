@@ -99,14 +99,14 @@ add_filter('plugins_api', function ($res, $action, $args) {
 
     // ICONS
     $res->icons = [
-        '1x' => 'https://raw.githubusercontent.com/favouradjenuvurhe/firepips-wp/main/assets/icon-128.png',
-        '2x' => 'https://raw.githubusercontent.com/favouradjenuvurhe/firepips-wp/main/assets/icon-256.png'
+        '1x' => 'https://raw.githubusercontent.com/favouradjenuvurhe/firepips-wp/assets/icon-128.png',
+        '2x' => 'https://raw.githubusercontent.com/favouradjenuvurhe/firepips-wp/assets/icon-256.png'
     ];
 
     // BANNER
     $res->banners = [
-        'low'  => 'https://raw.githubusercontent.com/favouradjenuvurhe/firepips-wp/main/assets/banner-772x250.png',
-        'high' => 'https://raw.githubusercontent.com/favouradjenuvurhe/firepips-wp/main/assets/banner-1544x500.png'
+        'low'  => 'https://raw.githubusercontent.com/favouradjenuvurhe/firepips-wp/assets/banner-772x250.png',
+        'high' => 'https://raw.githubusercontent.com/favouradjenuvurhe/firepips-wp/assets/banner-1544x500.png'
     ];
 
     // WP compatibility
