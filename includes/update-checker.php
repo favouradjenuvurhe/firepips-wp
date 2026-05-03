@@ -13,14 +13,13 @@ add_filter('pre_set_site_transient_update_plugins', function ($transient) {
     $plugin_data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin_file);
     $current_version = $plugin_data['Version'];
 
-    // GitHub API
     $response = wp_remote_get(
         'https://api.github.com/repos/favouradjenuvurhe/firepips-wp/releases/latest',
         [
             'headers' => [
                 'User-Agent' => 'Firepips-WP-Updater'
             ],
-            'timeout' => 20
+            'timeout' => 15
         ]
     );
 
@@ -35,7 +34,7 @@ add_filter('pre_set_site_transient_update_plugins', function ($transient) {
     if (version_compare($current_version, $latest_version, '<')) {
 
         $transient->response[$plugin_file] = (object) [
-            'slug'        => 'firepips-wp',
+            'slug'        => 'firepips-wp-main',
             'plugin'      => $plugin_file,
             'new_version' => $latest_version,
             'package'     => 'https://github.com/favouradjenuvurhe/firepips-wp/releases/download/'
@@ -46,9 +45,3 @@ add_filter('pre_set_site_transient_update_plugins', function ($transient) {
 
     return $transient;
 }, 20);
-
-
-// FORCE WORDPRESS UPDATE CACHE REFRESH
-add_action('admin_init', function () {
-    delete_site_transient('update_plugins');
-});
