@@ -1,0 +1,2 @@
+# firepips-wp
+SMTP
