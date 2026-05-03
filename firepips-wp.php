@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Firepips WP SMTP
+ * Plugin Name: firepips
  * Description: Advanced SMTP plugin with logging, test email, and GitHub auto updates.
  * Version: 1.1.0
- * Author: Firepips
+ * Author: Favour Adjenuvurhe
  */
 
 if (!defined('ABSPATH')) exit;
