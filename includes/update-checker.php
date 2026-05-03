@@ -14,12 +14,15 @@ add_filter('pre_set_site_transient_update_plugins', function ($transient) {
     $current_version = $plugin_data['Version'];
 
     // GitHub API
-    $response = wp_remote_get('https://api.github.com/repos/favouradjenuvurhe/firepips-wp/releases/latest', [
-        'headers' => [
-            'User-Agent' => 'Firepips-WP-Updater'
-        ],
-        'timeout' => 15
-    ]);
+    $response = wp_remote_get(
+        'https://api.github.com/repos/favouradjenuvurhe/firepips-wp/releases/latest',
+        [
+            'headers' => [
+                'User-Agent' => 'Firepips-WP-Updater'
+            ],
+            'timeout' => 20
+        ]
+    );
 
     if (is_wp_error($response)) return $transient;
 
@@ -31,58 +34,21 @@ add_filter('pre_set_site_transient_update_plugins', function ($transient) {
 
     if (version_compare($current_version, $latest_version, '<')) {
 
-        $update = new stdClass();
-        $update->slug = 'firepips-wp';
-        $update->plugin = $plugin_file;
-        $update->new_version = $latest_version;
-
-        // IMPORTANT: stable release ZIP
-        $update->package = 'https://github.com/favouradjenuvurhe/firepips-wp/releases/download/' 
-            . $data->tag_name . '/firepips-wp.zip';
-
-        $update->url = $data->html_url;
-
-        $transient->response[$plugin_file] = $update;
+        $transient->response[$plugin_file] = (object) [
+            'slug'        => 'firepips-wp',
+            'plugin'      => $plugin_file,
+            'new_version' => $latest_version,
+            'package'     => 'https://github.com/favouradjenuvurhe/firepips-wp/releases/download/'
+                . $data->tag_name . '/firepips-wp.zip',
+            'url'         => $data->html_url
+        ];
     }
 
     return $transient;
-}, 10, 1);
+}, 20);
 
 
-// FORCE WordPress to SHOW update details properly
-add_filter('plugins_api', function ($res, $action, $args) {
-
-    if ($action !== 'plugin_information') return $res;
-
-    if (!isset($args->slug) || $args->slug !== 'firepips-wp') return $res;
-
-    $response = wp_remote_get('https://api.github.com/repos/favouradjenuvurhe/firepips-wp/releases/latest', [
-        'headers' => [
-            'User-Agent' => 'Firepips-WP-Updater'
-        ],
-        'timeout' => 15
-    ]);
-
-    if (is_wp_error($response)) return $res;
-
-    $data = json_decode(wp_remote_retrieve_body($response));
-
-    if (empty($data)) return $res;
-
-    $res = new stdClass();
-    $res->name = 'Firepips WP SMTP';
-    $res->slug = 'firepips-wp';
-    $res->version = ltrim($data->tag_name, 'v');
-    $res->author = 'Firepips';
-    $res->homepage = $data->html_url;
-    $res->download_link = 'https://github.com/favouradjenuvurhe/firepips-wp/releases/download/' 
-        . $data->tag_name . '/firepips-wp.zip';
-
-    $res->sections = [
-        'description' => 'SMTP plugin with logging and GitHub auto updates.',
-        'changelog' => $data->body ?? 'No changelog available.'
-    ];
-
-    return $res;
-
-}, 10, 3);
+// FORCE WORDPRESS UPDATE CACHE REFRESH
+add_action('admin_init', function () {
+    delete_site_transient('update_plugins');
+});
