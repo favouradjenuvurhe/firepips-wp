@@ -5,19 +5,34 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout full history (IMPORTANT for changelog)
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # 🔥 Ensure correct tag is used
-      - name: Set up tag
+      # 2. Set version
+      - name: Set version
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
-      # 🔥 Build clean plugin folder
+      # 3. Generate AUTO changelog from commits
+      - name: Generate changelog
+        id: changelog
+        run: |
+          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+          git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:"- %s" >> $GITHUB_ENV
+          echo "" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      # 4. Prepare plugin folder
       - name: Prepare plugin folder
         run: |
           mkdir firepips-wp
@@ -27,16 +42,17 @@ jobs:
             --exclude='firepips-wp.zip' \
             ./ firepips-wp/
 
-      # 🔥 Create ZIP (IMPORTANT: correct structure for WP)
+      # 5. Create ZIP
       - name: Create ZIP
         run: zip -r firepips-wp.zip firepips-wp
 
-      # 🔥 Create GitHub Release
+      # 6. Create GitHub Release (WITH AUTO CHANGELOG)
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.RELEASE_VERSION }}
           name: Firepips WP SMTP ${{ env.RELEASE_VERSION }}
+          body: ${{ env.CHANGELOG }}
           files: firepips-wp.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
