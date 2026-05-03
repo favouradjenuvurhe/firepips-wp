@@ -1,11 +1,11 @@
 # 🔥 Firepips WP SMTP
 
-![Version](https://img.shields.io/github/v/release/YOUR_USERNAME/firepips-wp?label=version)
-![Downloads](https://img.shields.io/github/downloads/YOUR_USERNAME/firepips-wp/total)
-![License](https://img.shields.io/github/license/YOUR_USERNAME/firepips-wp)
-![Last Commit](https://img.shields.io/github/last-commit/YOUR_USERNAME/firepips-wp)
-![Stars](https://img.shields.io/github/stars/YOUR_USERNAME/firepips-wp?style=social)
-![Forks](https://img.shields.io/github/forks/YOUR_USERNAME/firepips-wp?style=social)
+![Version](https://img.shields.io/github/v/release/favouradjenuvurhe/firepips-wp?label=version)
+![Downloads](https://img.shields.io/github/downloads/favouradjenuvurhe/firepips-wp/total)
+![License](https://img.shields.io/github/license/favouradjenuvurhe/firepips-wp)
+![Last Commit](https://img.shields.io/github/last-commit/favouradjenuvurhe/firepips-wp)
+![Stars](https://img.shields.io/github/stars/favouradjenuvurhe/firepips-wp?style=social)
+![Forks](https://img.shields.io/github/forks/favouradjenuvurhe/firepips-wp?style=social)
 
 ---
 
@@ -50,18 +50,6 @@ Firepips WP SMTP is a powerful and lightweight SMTP plugin for WordPress that en
 2. Enter your SMTP details  
 3. Save settings  
 4. Send a test email  
-
----
-
-## 🔄 GitHub Auto Updates
-
-1. Push plugin to:
-   https://github.com/YOUR_USERNAME/firepips-wp
-
-2. Replace YOUR_USERNAME in code  
-
-3. Create release:
-   v1.1.0  
 
 ---
 
