@@ -4,7 +4,7 @@ add_filter('pre_set_site_transient_update_plugins', function ($transient) {
 
     if (empty($transient->checked)) return $transient;
 
-    $plugin_file = 'firepips-wp/firepips-wp.php';
+    $plugin_file = 'firepips-wp-main/firepips-wp.php';
 
     if (!function_exists('get_plugin_data')) {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
