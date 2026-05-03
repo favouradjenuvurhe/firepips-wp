@@ -6,7 +6,7 @@ add_filter('pre_set_site_transient_update_plugins', function($transient) {
 
     $plugin_slug = 'firepips-wp';
     $plugin_file = 'firepips-wp/firepips-wp.php';
-    $current_version = '1.0.0';
+    $current_version = '1.1.0';
 
     // GitHub API URL
     $response = wp_remote_get('https://api.github.com/repos/favouradjenuvurhe/firepips-wp/releases/latest');
