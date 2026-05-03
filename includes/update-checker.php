@@ -4,7 +4,7 @@ add_filter('pre_set_site_transient_update_plugins', function ($transient) {
 
     if (empty($transient->checked)) return $transient;
 
-    $plugin_file = 'firepips-wp-main/firepips-wp.php';
+    $plugin_file = 'firepips-wp/firepips-wp.php';
 
     if (!function_exists('get_plugin_data')) {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -35,7 +35,7 @@ add_filter('pre_set_site_transient_update_plugins', function ($transient) {
     if (version_compare($current_version, $latest_version, '<')) {
 
         $transient->response[$plugin_file] = (object) [
-            'slug'        => 'firepips-wp-main',
+            'slug'        => 'firepips-wp',
             'plugin'      => $plugin_file,
             'new_version' => $latest_version,
 
@@ -57,7 +57,7 @@ add_filter('plugins_api', function ($res, $action, $args) {
 
     if ($action !== 'plugin_information') return $res;
 
-    if (!isset($args->slug) || $args->slug !== 'firepips-wp-main') return $res;
+    if (!isset($args->slug) || $args->slug !== 'firepips-wp') return $res;
 
     $response = wp_remote_get(
         'https://api.github.com/repos/favouradjenuvurhe/firepips-wp/releases/latest',
@@ -83,7 +83,7 @@ add_filter('plugins_api', function ($res, $action, $args) {
     $res = new stdClass();
 
     $res->name    = 'firepips';
-    $res->slug    = 'firepips-wp-main';
+    $res->slug    = 'firepips-wp';
     $res->version = ltrim($data->tag_name, 'v');
     $res->author  = '<a href="https://github.com/favouradjenuvurhe">Firepips</a>';
     $res->homepage = 'https://github.com/favouradjenuvurhe/firepips-wp';
