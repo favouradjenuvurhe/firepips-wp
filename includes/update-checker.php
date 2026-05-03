@@ -6,15 +6,20 @@ add_filter('pre_set_site_transient_update_plugins', function ($transient) {
 
     $plugin_file = 'firepips-wp/firepips-wp.php';
 
-    // Get installed version dynamically
+    // Get installed version safely
+    if (!function_exists('get_plugin_data')) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
     $plugin_data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin_file);
     $current_version = $plugin_data['Version'];
 
-    // GitHub API request (IMPORTANT: add User-Agent)
+    // GitHub API
     $response = wp_remote_get('https://api.github.com/repos/favouradjenuvurhe/firepips-wp/releases/latest', [
         'headers' => [
-            'User-Agent' => 'WordPress-Update-Checker'
-        ]
+            'User-Agent' => 'Firepips-WP-Updater'
+        ],
+        'timeout' => 15
     ]);
 
     if (is_wp_error($response)) return $transient;
@@ -32,8 +37,12 @@ add_filter('pre_set_site_transient_update_plugins', function ($transient) {
         $update->slug = 'firepips-wp';
         $update->plugin = $plugin_file;
         $update->new_version = $latest_version;
+
+        // IMPORTANT: use your own ZIP (NOT zipball_url)
+        $update->package = 'https://github.com/favouradjenuvurhe/firepips-wp/releases/download/' 
+            . $data->tag_name . '/firepips-wp.zip';
+
         $update->url = $data->html_url;
-        $update->package = $data->zipball_url;
 
         $transient->response[$plugin_file] = $update;
     }
