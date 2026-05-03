@@ -82,7 +82,7 @@ add_filter('plugins_api', function ($res, $action, $args) {
 
     $res = new stdClass();
 
-    $res->name    = '🔥 Firepips WP SMTP';
+    $res->name    = 'firepips';
     $res->slug    = 'firepips-wp-main';
     $res->version = ltrim($data->tag_name, 'v');
     $res->author  = '<a href="https://github.com/favouradjenuvurhe">Firepips</a>';
