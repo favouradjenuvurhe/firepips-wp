@@ -2,7 +2,7 @@
 /**
  * Plugin Name: firepips
  * Description: Advanced SMTP plugin with logging, test email, and GitHub auto updates.
- * Version: 1.1.2
+ * Version: 1.1.3
  * Author: Favour Adjenuvurhe
  */
 
